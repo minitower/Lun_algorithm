@@ -3,7 +3,7 @@ from numba import njit, guvectorize, float64, int64
 import numpy as np
 
 batch = 10
-Card_num = np.array([5, 2, 4, 6, 9, 2, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, 5, 8, 8])
+Card_num = np.array([np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN, np.NaN])
 arr_of_cards = np.hstack(list(Card_num) * batch)
 arr_of_cards.resize((10, 15))
 arr_of_cards.transpose()
@@ -18,7 +18,7 @@ def g(x, res):
 @njit()
 def gen_num_card(arr):
     arr_of_cards = arr
-    arr_of_cards[:, 6:12] = \
+    arr_of_cards[:, :] = \
         np.random.choice(np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
                          size=arr_of_cards[:, 6:12].size).reshape(10, 6)
     ev = arr_of_cards[:, ::2] * 2
